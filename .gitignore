@@ -1,0 +1,8 @@
+
+# go env
+go*
+
+# sub-project
+angr/
+SyzGen/
+

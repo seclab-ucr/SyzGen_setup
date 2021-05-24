@@ -1,0 +1,113 @@
+diff --git a/angr/sim_procedure.py b/angr/sim_procedure.py
+index 0bff6b3..51293d6 100644
+--- a/angr/sim_procedure.py
++++ b/angr/sim_procedure.py
+@@ -402,7 +402,7 @@ class SimProcedure:
+         self.successors.add_successor(self.state, ret_addr, self.state.solver.true, 'Ijk_Ret')
+ 
+ 
+-    def call(self, addr, args, continue_at, cc=None):
++    def call(self, addr, args, continue_at, cc=None, jumpkind='Ijk_Call'):
+         """
+         Add an exit representing calling another function via pointer.
+ 
+@@ -412,6 +412,8 @@ class SimProcedure:
+                             procedure will continue in the named method.
+         :param cc:          Optional: use this calling convention for calling the new function.
+                             Default is to use the current convention.
++        :param jumpkind:    Optional: The jumpkind (Call or NoHook).
++                            Default is to use Ijk_Call.
+         """
+         self.inhibit_autoret = True
+ 
+@@ -439,7 +441,7 @@ class SimProcedure:
+             call_state.regs.t9 = addr
+ 
+         self._exit_action(call_state, addr)
+-        self.successors.add_successor(call_state, addr, call_state.solver.true, 'Ijk_Call')
++        self.successors.add_successor(call_state, addr, call_state.solver.true, jumpkind)
+ 
+         if o.DO_RET_EMULATION in self.state.options:
+             # we need to set up the call because the continuation will try to tear it down
+diff --git a/angr/state_plugins/__init__.py b/angr/state_plugins/__init__.py
+index 1c6ff43..5ac093e 100644
+--- a/angr/state_plugins/__init__.py
++++ b/angr/state_plugins/__init__.py
+@@ -22,6 +22,7 @@ from .sim_action_object import *
+ from .sim_event import *
+ from .callstack import *
+ from .globals import *
++from .locals import *
+ from .preconstrainer import *
+ from .loop_data import *
+ from .view import *
+diff --git a/angr/state_plugins/locals.py b/angr/state_plugins/locals.py
+new file mode 100644
+index 0000000..8d04486
+--- /dev/null
++++ b/angr/state_plugins/locals.py
+@@ -0,0 +1,64 @@
++
++import logging
++import copy
++
++from .plugin import SimStatePlugin
++
++l = logging.getLogger(name=__name__)
++
++# CwT: As oppposed to globals, locals allow deep copy so that stored information is private.
++class SimStateLocals(SimStatePlugin):
++    def __init__(self, backer=None):
++        super(SimStateLocals, self).__init__()
++        self._backer = backer if backer is not None else {}
++
++    def set_state(self, state):
++        pass
++
++    def merge(self, others, merge_conditions, common_ancestor=None): # pylint: disable=unused-argument
++        # FIXME: merge according its type?
++        for other in others:
++            for k in other.keys():
++                if k not in self:
++                    self[k] = other[k]
++
++        return True
++
++    def widen(self, others): # pylint: disable=unused-argument
++        l.warning("Widening is unimplemented for locals")
++        return False
++
++    def __getitem__(self, k):
++        return self._backer[k]
++
++    def __setitem__(self, k, v):
++        self._backer[k] = v
++
++    def __delitem__(self, k):
++        del self._backer[k]
++
++    def __contains__(self, k):
++        return k in self._backer
++
++    def keys(self):
++        return self._backer.keys()
++
++    def values(self):
++        return self._backer.values()
++
++    def items(self):
++        return self._backer.items()
++
++    def get(self, k, alt=None):
++        return self._backer.get(k, alt)
++
++    def pop(self, k, alt=None):
++        return self._backer.pop(k, alt)
++
++    @SimStatePlugin.memo
++    def copy(self, memo):   # pylint: disable=unused-argument
++        return SimStateLocals(copy.deepcopy(self._backer))
++
++
++from angr.sim_state import SimState
++SimState.register_default('locals', SimStateLocals)
