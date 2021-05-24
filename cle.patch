@@ -137,10 +137,10 @@ index a17c10d..1791fc5 100644
              blob = self._read(f, seg.offset, seg.filesize)
              if seg.filesize < seg.memsize:
 diff --git a/cle/backends/macho/symbol.py b/cle/backends/macho/symbol.py
-index 9ccc0a0..e3a73f0 100644
+index 9ccc0a0..75ed595 100644
 --- a/cle/backends/macho/symbol.py
 +++ b/cle/backends/macho/symbol.py
-@@ -282,3 +282,57 @@ class BindingSymbol(AbstractMachOSymbol):
+@@ -282,3 +282,56 @@ class BindingSymbol(AbstractMachOSymbol):
      @property
      def library_ordinal(self):
          return self.lib_ordinal
@@ -197,7 +197,6 @@ index 9ccc0a0..e3a73f0 100644
 +        if self.is_external:
 +            return self.symbol.reference_type == RelocSymbol.REFERENCE_FLAG_UNDEFINED_LAZY
 +        return False
-+
 diff --git a/cle/loader.py b/cle/loader.py
 index bd35b0a..6b0cacf 100644
 --- a/cle/loader.py
