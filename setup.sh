@@ -26,6 +26,18 @@ git clone git@github.com:CvvT/SyzGen.git
 mkdir ${GOPATH}
 git clone git@github.com:CvvT/bluetooth-fuzzer.git ${GOPATH}/src/github.com/google/syzkaller
 
+source ${VIRTUAL_ENV}
+
+# install custom cle to support macOS driver
+git clone git@github.com:angr/cle.git
+cp cle.patch cle/
+cd cle
+git checkout -b dev 8cfedc60f8cc219d
+git apply cle.patch
+rm cle.patch
+pip install .
+cd ..
+
 # install custom angr
 git clone git@github.com:angr/angr.git
 cp angr.patch angr/
@@ -33,4 +45,12 @@ cd angr
 git checkout -b dev ce14b4dd70f64
 git apply angr.patch
 rm angr.patch
+pip install .
+cd ..
+
+# install angr-targets
+git clone git@github.com:angr/angr-targets.git
+cd angr-targets
+pip install -e .
+cd ..
 

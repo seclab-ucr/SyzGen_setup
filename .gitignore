@@ -5,4 +5,5 @@ go*
 # sub-project
 angr/
 SyzGen/
-
+angr-targets/
+cle/
