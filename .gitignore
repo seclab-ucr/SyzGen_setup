@@ -7,3 +7,7 @@ angr/
 SyzGen/
 angr-targets/
 cle/
+kcov/
+
+# python env
+fuzz/

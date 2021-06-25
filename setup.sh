@@ -4,17 +4,36 @@ set -e
 
 source common.sh
 
+# common libraries
 pip3 install virtualenv
-brew install ldid
-brew install clang-format
+
+# OS specific
+OS=$(uname -s)
+case $OS in
+    Linux)
+        echo "Detect Linux OS"
+        OS="linux"
+    ;;
+    Darwin)
+        echo "Detect Darwin OS"
+        OS="darwin"
+        brew install ldid
+        brew install clang-format
+    ;;
+    *)
+        echo "unknown" && exit 1
+    ;;
+esac
+
+GO_URL="https://dl.google.com/go/go1.15.6.${OS}-amd64.tar.gz"
 
 virtualenv ${SYZGEN} --python=$(which python3)
 
 # install golang
 # https://golang.org/doc/install
-if [[ ! -f "go1.15.6.darwin-amd64.tar.gz" ]]; then
-    curl -o go1.15.6.darwin-amd64.tar.gz https://dl.google.com/go/go1.15.6.darwin-amd64.tar.gz
-    tar -xzf go1.15.6.darwin-amd64.tar.gz
+if [[ ! -f "go1.15.6.${OS}-amd64.tar.gz" ]]; then
+    curl -o go1.15.6.${OS}-amd64.tar.gz ${GO_URL}
+    tar -xzf go1.15.6.${OS}-amd64.tar.gz
 fi
 
 echo "GOROOT=\"${GOROOT}\"" >> $VIRTUAL_ENV
@@ -63,6 +82,6 @@ cd angr-targets
 pip install -e .
 cd ..
 
-echo 'run "source ${SYZGEN}/bin/active" to set up the env'
+echo run "source ${SYZGEN}/bin/active" to set up the env
 echo "Please use xcode to build kcov"
 
