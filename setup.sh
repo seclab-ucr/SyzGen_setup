@@ -22,12 +22,21 @@ echo "export GOROOT" >> $VIRTUAL_ENV
 echo "GOPATH=\"${GOPATH}\"" >> $VIRTUAL_ENV
 echo "export GOPATH" >> $VIRTUAL_ENV
 
+echo "installing SyzGen..."
 git clone git@github.com:CvvT/SyzGen.git
+cd SyzGen
+sh setup.sh
+cd ..
+
+git clone git@github.com:CvvT/kcov.git
+
+echo "installing syzkaller..."
 mkdir ${GOPATH}
 git clone git@github.com:CvvT/bluetooth-fuzzer.git ${GOPATH}/src/github.com/google/syzkaller
 
 source ${VIRTUAL_ENV}
 
+echo "installing angr..."
 # install custom cle to support macOS driver
 git clone git@github.com:angr/cle.git
 cp cle.patch cle/
@@ -53,4 +62,7 @@ git clone git@github.com:angr/angr-targets.git
 cd angr-targets
 pip install -e .
 cd ..
+
+echo 'run "source ${SYZGEN}/bin/active" to set up the env'
+echo "Please use xcode to build kcov"
 
