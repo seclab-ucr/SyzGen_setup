@@ -42,7 +42,7 @@ echo "GOPATH=\"${GOPATH}\"" >> $VIRTUAL_ENV
 echo "export GOPATH" >> $VIRTUAL_ENV
 
 echo "installing SyzGen..."
-git clone git@github.com:CvvT/SyzGen.git
+git clone git@github.com:seclab-ucr/SyzGen.git
 cd SyzGen
 sh setup.sh
 cd ..
@@ -51,7 +51,7 @@ git clone git@github.com:CvvT/kcov.git
 
 echo "installing syzkaller..."
 mkdir ${GOPATH}
-git clone git@github.com:CvvT/bluetooth-fuzzer.git ${GOPATH}/src/github.com/google/syzkaller
+git clone --branch macos git@github.com:CvvT/syzkaller.git ${GOPATH}/src/github.com/google/syzkaller
 
 source ${VIRTUAL_ENV}
 
