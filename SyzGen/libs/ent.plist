@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.private.iowatchdog.user-access</key>
+	<true/>
+	<key>com.apple.private.applehda.user-access</key>
+	<true/>
+	<key>com.apple.private.audio.driver-host</key>
+	<true/>
+	<key>com.apple.hid.system.user-access-service</key>
+	<true/>
+	<key>com.apple.hid.system.server-access</key>
+	<true/>
+	<key>com.apple.iokit.CoreAnalytics.user</key>
+	<true/>
+	<key>com.apple.private.applegraphicsdevicecontrol</key>
+	<true/>
+	<key>com.apple.private.gpuwrangler</key>
+	<true/>
+	<key>com.apple.hid.manager.user-access-device</key>
+	<true/>
+	<key>com.apple.developer.hid.virtual.device</key>
+	<true/>
+	<key>com.apple.private.KextAudit.user-access</key>
+	<true/>
+	<key>com.apple.private.security.AppleImage4.user-client</key>
+	<true/>
+	<key>com.apple.private.applecredentialmanager.allow</key>
+	<true/>
+	<key>com.apple.private.diskimages.kext.user-client-access</key>
+	<true/>
+	<key>com.apple.private.applesse.allow</key>
+	<true/>
+	<key>com.apple.private.timesync.clock-testing</key>
+	<true/>
+	<key>com.apple.hid.system.user-access-fast-path</key>
+	<true/>
+	<key>com.apple.private.applesmc.user-access</key>
+	<true/>
+	<key>com.apple.private.timesync.edge-generate</key>
+	<true/>
+	<key>com.apple.private.timesync.edge-capture</key>
+	<true/>
+	<key>com.apple.hid.manager.user-access-protected</key>
+	<true/>
+	<key>com.apple.private.applefdekeystore.readpassphrase</key>
+	<true/>
+	<key>com.apple.private.securityd.stash</key>
+	<true/>
+	<key>com.apple.private.securityd.keychain</key>
+	<true/>
+	<key>com.apple.private.applefdekeystore.deletepassphrase</key>
+	<true/>
+	<key>com.apple.private.storage.revoke-access</key>
+	<true/>
+	<key>com.apple.keystore.filevault</key>
+	<true/>
+	<key>com.apple.bluetooth.iokit-user-access</key>
+	<true/>
+	<key>com.apple.vm.device-access</key>
+	<true/>
+</dict>
+</plist>

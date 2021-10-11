@@ -1,0 +1,26 @@
+
+include <sys/types.h>
+include <sys/mman.h>
+
+resource fd[int32]: 0xffffffffffffffff, AT_FDCWD
+open(file ptr[in, filename], flags flags[open_flags], mode flags[open_mode]) fd
+close(fd fd)
+
+mmap(addr vma, len len[addr], prot flags[mmap_prot], flags flags[mmap_flags], fd fd, offset fileoff)
+munmap(addr vma, len len[addr])
+
+mmap_prot = PROT_EXEC, PROT_READ, PROT_WRITE
+mmap_flags = MAP_SHARED, MAP_PRIVATE, MAP_32BIT, MAP_ANONYMOUS, MAP_FILE, MAP_FIXED, MAP_STACK
+
+open_flags = O_RDONLY, O_WRONLY, O_RDWR, O_APPEND, FASYNC, O_CLOEXEC, O_CREAT, O_DIRECT, O_DIRECTORY, O_EXCL, O_NOCTTY, O_NOFOLLOW, O_NONBLOCK, O_SYNC, O_TRUNC, O_EXEC, O_TTY_INIT, O_VERIFY, O_BENEATH
+open_mode = S_IRUSR, S_IWUSR, S_IXUSR, S_IRGRP, S_IWGRP, S_IXGRP, S_IROTH, S_IWOTH, S_IXOTH
+
+define MAP_ANONYMOUS	MAP_ANON
+
+syz_execute_func(text ptr[in, text[target]])
+
+resource io_connect_t[int64]
+syz_IOServiceOpen(name ptr[in, string], typ int32, port ptr[out, io_connect_t])
+syz_IOServiceClose(port io_connect_t)
+syz_IOConnectCallMethod(port io_connect_t, selector int32, input buffer[in], inputCnt len[input], inputStruct buffer[in], inputStructCnt len[inputStruct], output buffer[out], outputCnt ptr[in, len[output, int32]], outputStruct buffer[out], outputStructCnt ptr[in, len[outputStruct, int64]])
+syz_IOConnectCallAsyncMethod(port io_connect_t, selector int32, input buffer[in], inputCnt len[input], inputStruct buffer[in], inputStructCnt len[inputStruct], output buffer[out], outputCnt ptr[in, len[output, int32]], outputStruct buffer[out], outputStructCnt ptr[in, len[outputStruct, int64]])

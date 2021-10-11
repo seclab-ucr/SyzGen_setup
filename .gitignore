@@ -1,13 +1,9 @@
 
-# go env
-go*
 
 # sub-project
 angr/
-SyzGen/
 angr-targets/
 cle/
-kcov/
 
 # python env
 fuzz/

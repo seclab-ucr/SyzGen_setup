@@ -42,16 +42,9 @@ echo "GOPATH=\"${GOPATH}\"" >> $VIRTUAL_ENV
 echo "export GOPATH" >> $VIRTUAL_ENV
 
 echo "installing SyzGen..."
-git clone git@github.com:seclab-ucr/SyzGen.git
 cd SyzGen
 sh setup.sh
 cd ..
-
-git clone git@github.com:CvvT/kcov.git
-
-echo "installing syzkaller..."
-mkdir ${GOPATH}
-git clone --branch macos git@github.com:CvvT/syzkaller.git ${GOPATH}/src/github.com/google/syzkaller
 
 source ${VIRTUAL_ENV}
 
@@ -82,6 +75,10 @@ cd angr-targets
 pip install -e .
 cd ..
 
+cd gopath/src/github.com/google/syzkaller
+make
+cd ../../../../../
+
 echo run "source ${SYZGEN}/bin/active" to set up the env
-echo "Please use xcode to build kcov"
+echo "Please use xcode to build kcov and macOS-tools"
 

@@ -1,0 +1,28 @@
+{{/*
+Copyright 2019 syzkaller project authors. All rights reserved.
+Use of this source code is governed by Apache 2 LICENSE that can be found in the LICENSE file.
+
+Main page.
+*/}}
+
+<!doctype html>
+<html>
+<head>
+	{{template "head" .Header}}
+	<title>syzbot</title>
+</head>
+<body>
+	{{template "header" .Header}}
+
+	<a class="plain" href="#log"><div id="log"><b>Error log:</b></div></a>
+	<textarea id="log_textarea" readonly rows="20" wrap=off>{{printf "%s" .Log}}</textarea>
+	<script>
+		var textarea = document.getElementById("log_textarea");
+		textarea.scrollTop = textarea.scrollHeight;
+	</script>
+	<br><br>
+
+	{{template "manager_list" $.Managers}}
+	{{template "job_list" $.Jobs}}
+</body>
+</html>
