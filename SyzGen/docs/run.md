@@ -73,7 +73,7 @@ You can find the generated specification for IOBluetoothHCIUserClient at `${GOPA
 
 Additionally, we can leverage traces collected from existing applications that invoke the target driver to refine the specification.
 
-Please refer to [macOS-tools](https://github.com/CvvT/macOS-tools) to learn how to generate traces from running applications.
+Please refer to [macOS-tools](../../macOS-tools/README.md) to learn how to generate traces from running applications.
 
 In the sample folder, we provide some examples.
 
