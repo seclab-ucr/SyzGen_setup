@@ -6,7 +6,7 @@
 
 # Overview
 
-![overview](overview.pdf)
+![overview](overview.png)
 
 # Instruction
 
