@@ -325,8 +325,8 @@ class InitWithPhysicalMask(angr.SimProcedure):
         self.state.memory.store(this+0xc0, capacity, endness=self.state.arch.memory_endness, inspect=False)  # _capacity
         ptr = brkAlloc(self.state, capacity)
         print("call InitWithPhysicalMask", ptr)
-        _lengthOffset = LLDBDebugger.fieldOffset("_length", "IOBufferMemoryDescriptor", getConfigKey("kernel"))
-        self.state.memory.store(this+_lengthOffset, ptr, endness=self.state.arch.memory_endness, inspect=False)  # _buffer
+        _bufferOffset = LLDBDebugger.fieldOffset("_length", "IOBufferMemoryDescriptor", getConfigKey("kernel"))
+        self.state.memory.store(this+_bufferOffset, ptr, endness=self.state.arch.memory_endness, inspect=False)  # _buffer
         # store the mapping info
         self.state.locals[('mapping', self.state.solver.eval(this))] = (ptr, None)
         return 1
