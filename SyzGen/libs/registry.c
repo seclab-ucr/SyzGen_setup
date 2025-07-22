@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
 
   // printf("service name: %s\n", argv[1]);
   io_service_t service = IOServiceGetMatchingService(
-    kIOMasterPortDefault, IOServiceMatching(argv[1]));
+    kIOMainPortDefault, IOServiceMatching(argv[1]));
   if (!service) {
     printf("failed to get service\n");
     return -1;
