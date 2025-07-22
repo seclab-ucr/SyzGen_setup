@@ -545,7 +545,7 @@ static void loop(void)
 #if SYZ_EXECUTOR || SYZ_USE_TMP_DIR
 		// Create a new private work dir for this test (removed at the end of the loop).
 		char cwdbuf[32];
-		sprintf(cwdbuf, "./%d", iter);
+		snprintf(cwdbuf, sizeof(cwdbuf), "./%d", iter);
 		if (mkdir(cwdbuf, 0777))
 			fail("failed to mkdir");
 #endif
