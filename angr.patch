@@ -1,5 +1,5 @@
 diff --git a/angr/sim_procedure.py b/angr/sim_procedure.py
-index 0bff6b3..51293d6 100644
+index 0bff6b343..51293d6ed 100644
 --- a/angr/sim_procedure.py
 +++ b/angr/sim_procedure.py
 @@ -402,7 +402,7 @@ class SimProcedure:
@@ -30,7 +30,7 @@ index 0bff6b3..51293d6 100644
          if o.DO_RET_EMULATION in self.state.options:
              # we need to set up the call because the continuation will try to tear it down
 diff --git a/angr/state_plugins/__init__.py b/angr/state_plugins/__init__.py
-index 1c6ff43..5ac093e 100644
+index 1c6ff43b7..5ac093e1f 100644
 --- a/angr/state_plugins/__init__.py
 +++ b/angr/state_plugins/__init__.py
 @@ -22,6 +22,7 @@ from .sim_action_object import *
@@ -43,7 +43,7 @@ index 1c6ff43..5ac093e 100644
  from .view import *
 diff --git a/angr/state_plugins/locals.py b/angr/state_plugins/locals.py
 new file mode 100644
-index 0000000..8d04486
+index 000000000..8d0448680
 --- /dev/null
 +++ b/angr/state_plugins/locals.py
 @@ -0,0 +1,64 @@
@@ -111,3 +111,35 @@ index 0000000..8d04486
 +
 +from angr.sim_state import SimState
 +SimState.register_default('locals', SimStateLocals)
+diff --git a/native/sim_unicorn.cpp b/native/sim_unicorn.cpp
+index c9fc547ac..93f43132c 100644
+--- a/native/sim_unicorn.cpp
++++ b/native/sim_unicorn.cpp
+@@ -548,7 +548,7 @@ public:
+ 			auto page = page_cache->find(address+offset);
+ 			if (page != page_cache->end())
+ 			{
+-				fprintf(stderr, "[%#" PRIx64 ", %#" PRIx64 "](%#zx) already in cache.\n", address+offset, address+offset + 0x1000, 0x1000);
++				fprintf(stderr, "[%#" PRIx64 ", %#" PRIx64 "](%#x) already in cache.\n", address+offset, address+offset + 0x1000, 0x1000);
+ 				assert(page->second.size == 0x1000);
+ 				assert(memcmp(page->second.bytes, bytes + offset, 0x1000) == 0);
+ 
+@@ -627,7 +627,7 @@ public:
+ 			//LOG_D("hit cache [%#lx, %#lx]", address, address + size);
+ 			uc_err err = uc_mem_map_ptr(uc, page->first, page_size, permissions, bytes);
+ 			if (err) {
+-				fprintf(stderr, "map_cache [%#lx, %#lx]: %s\n", address, address + size, uc_strerror(err));
++				fprintf(stderr, "map_cache [%#llx, %#llx]: %s\n", address, address + size, uc_strerror(err));
+ 				success = false;
+ 				continue;
+ 			}
+@@ -848,7 +848,7 @@ public:
+ 			uc_mem_read(this->uc, address, instructions.get(), size);
+ 			VEXLiftResult *lift_ret = vex_lift(
+ 					this->vex_guest, this->vex_archinfo, instructions.get(), address, 99, size, 1, 0, 0, 1, 0,
+-					pxControl
++					0, 0, pxControl, 0
+ 					);
+ 
+ 
+-- 
