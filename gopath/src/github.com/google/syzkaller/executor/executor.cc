@@ -1225,17 +1225,17 @@ void copyin(char* addr, uint64 val, uint64 size, uint64 bf, uint64 bf_off, uint6
 	case binary_format_strdec:
 		if (size != 20)
 			fail("bad strdec size %llu", size);
-		NONFAILING(sprintf((char*)addr, "%020llu", val));
+		NONFAILING(snprintf((char*)addr, size + 1, "%020llu", val));
 		break;
 	case binary_format_strhex:
 		if (size != 18)
 			fail("bad strhex size %llu", size);
-		NONFAILING(sprintf((char*)addr, "0x%016llx", val));
+		NONFAILING(snprintf((char*)addr, size + 1, "0x%016llx", val));
 		break;
 	case binary_format_stroct:
 		if (size != 23)
 			fail("bad stroct size %llu", size);
-		NONFAILING(sprintf((char*)addr, "%023llo", val));
+		NONFAILING(snprintf((char*)addr, size + 1, "%023llo", val));
 		break;
 	default:
 		fail("unknown binary format %llu", bf);

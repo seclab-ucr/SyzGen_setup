@@ -155,7 +155,7 @@ static long syz_IOServiceOpen(volatile long name, volatile int typ, volatile lon
 	if (service_name == NULL || port_ptr == NULL)
 		return -1;
 
-	io_service_t service = IOServiceGetMatchingService(kIOMasterPortDefault,
+	io_service_t service = IOServiceGetMatchingService(kIOMainPortDefault,
 				IOServiceMatching(service_name));
 	if (!service) {
 		return -1;

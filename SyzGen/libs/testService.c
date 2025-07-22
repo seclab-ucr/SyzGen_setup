@@ -7,7 +7,7 @@
 static long syz_IOServiceOpen(char *service_name, io_connect_t *port_ptr, int type)
 {
   io_service_t service = IOServiceGetMatchingService(
-      kIOMasterPortDefault, IOServiceMatching(service_name));
+      kIOMainPortDefault, IOServiceMatching(service_name));
   if (!service) {
     return -1;
   }

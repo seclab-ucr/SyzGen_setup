@@ -9,7 +9,7 @@ all: testService registry
 testService: testService.c ent.plist
 	gcc $< -o $@ -framework IOKit
 	ldid -Sent.plist testService
-	../jtool2/jtool2 --sign testService --inplace
+	../jtool2/disarm --signature testService --inplace
 
 registry: registry.c
 	gcc $< -o $@ -framework IOKit -framework CoreFoundation
